@@ -61,6 +61,12 @@ class MDA:
         for i in range(init_max_iter):
             C = np.array([np.argmin([np.dot(x_i-y_k, x_i-y_k) for y_k in centroids]) for x_i in X])
             centroids = [X[C == k].mean(axis = 0) for k in range(K)]
+                    
+            #Check if new assign of centroid is invalid, 
+            if (len(np.unique(C)) < K):
+                centroids = X[np.random.choice(np.arange(len(X)), K)]
+            else:
+                centroids = [X[C == k].mean(axis = 0) for k in range(K)]
         return np.array(centroids)
 
     def _multivariate_gaussian(self, x, mu, covariance):
